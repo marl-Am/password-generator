@@ -1,4 +1,6 @@
 # password-generator
 
-generates a password of a certain length
-users can add symbols, numbers, uppercase characters, lowercase characters
+Generates a password of a certain length
+Users can add symbols, numbers, uppercase characters, lowercase characters
+
+![home](/static/images/screenshot.png)
