@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, make_response, render_template, request
 import random
 import string
+import os
 
 app = Flask(__name__)
 
@@ -16,26 +17,33 @@ def generate_password(length, uppercase, lowercase, numbers, symbols):
     if symbols:
         password_chars += string.punctuation
 
-    password = ''.join(random.sample(password_chars, k=length))
+    password = ''.join(random.choices(password_chars, k=length))
     return password
 
 
 @app.route('/')
 def index():
-    password = generate_password(6, True, True, True, True)
-    return render_template('index.html', password=password)
+    template = render_template('index.html')
+    response = make_response(template)
+    response.headers['Cache-Control'] = 'public, max-age=300, s-maxage=600'
+    return response
 
 
 @app.route('/', methods=['POST'])
 def generate_password_route():
-    length = int(request.form['length'])
-    uppercase = request.form.get('uppercase') == '1'
-    lowercase = request.form.get('lowercase') == '1'
-    numbers = request.form.get('numbers') == '1'
-    symbols = request.form.get('symbols') == '1'
-    password = generate_password(length, uppercase, lowercase, numbers, symbols)
-    return render_template('index.html', password=password)
+    if request.method == 'POST':
+        length = 0
+        if request.form['length'] is None or request.form['length'] == '':
+            length = 6
+        length = int(request.form['length'])
+        uppercase = request.form.get('uppercase') == '1'
+        lowercase = True
+        numbers = request.form.get('numbers') == '1'
+        symbols = request.form.get('symbols') == '1'
+        newPassword = generate_password(
+            length, uppercase, lowercase, numbers, symbols)
+        return render_template('index.html', newPassword=newPassword)
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))

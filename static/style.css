@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap");
+
+body {
+  font-family: "Inconsolata", monospace;
+  margin: 10px;
+}
+
+strong {
+  color: tomato;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+}
+
+input[type="number"] {
+  width: 100%;
+}
+
+a {
+  text-decoration: none; /* remove underline */
+  color: inherit; /* remove blue */
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+.social {
+  margin: 5px;
+}
+
+@media only screen and (max-width:575px){
+    #col-2-title {
+        margin-top: 20px;
+    }
+}

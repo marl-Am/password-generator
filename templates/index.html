@@ -4,12 +4,18 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/static/ico/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" />
 
     <script
       src="https://kit.fontawesome.com/315493f7dc.js"
       crossorigin="anonymous"
     ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
@@ -20,35 +26,66 @@
       integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="/static/css/style.css" />
+
+    <link rel="stylesheet" href="style.css" />
+
     <title>Password Generator</title>
+
+    <!-- <style>
+		strong {
+			color: tomato;
+		}
+
+		input[type="checkbox"] {
+			cursor: pointer;
+		}
+	</style> -->
   </head>
   <body class="bg-dark text-white">
     <div class="container">
+      <!-- Contact Me -->
+      <section class="mt-4" id="contact-me">
+        <div class="d-flex justify-content-center">
+          <a href="https://github.com/marl-Am" target="_blank" class="social">
+            <i class="fa-brands fa-github-square text-light fa-3x"></i>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/marlon-a-89715814b/"
+            target="_blank"
+            class="social"
+          >
+            <i class="fa-brands fa-linkedin text-light fa-3x"></i>
+          </a>
+          <a href="mailto:mamedee001@gmail.com" target="_blank" class="social">
+            <i class="fa-solid fa-envelope-square text-light fa-3x"></i>
+          </a>
+        </div>
+      </section>
+      <!--  -->
+
       <div class="row">
         <div class="col-sm">
-
           <span class="col" id="copy-password-container">
             <h3 class="mt-2 mb-2 d-flex flex-wrap" id="generated-password">
-              {{ password }}
+              {{ newPassword }}
             </h3>
-            <button class="btn btn-info" onclick="copyToClipboard()">Copy To Clipboard</button>
+            <button class="btn btn-info" onclick="copyToClipboard()">
+              Copy To Clipboard
+            </button>
+            <h3 id="copied"></h3>
           </span>
 
-          <form
-            class="passwordForm"
-            action="/"
-            method="POST"
-            class="mt-5"
-          >
-            <p>Must be from 6 to 35</p>
+          <form class="passwordForm" action="/" method="POST" class="mt-5">
+            <p>Must be from 6 to 30</p>
             <input
               type="number"
               name="length"
-              placeholder="Enter password length..."
+              id="length-input"
+              placeholder="Password length..."
               min="6"
-              max="35"
+              max="30"
               autofocus
+              oninput="checkInput()"
             />
             <br />
             <input
@@ -57,6 +94,7 @@
               name="lowercase"
               value="1"
               checked
+              disabled
             />
             Include lowercase characters
             <br />
@@ -70,12 +108,18 @@
             Include symbols
             <br />
 
-            <input class="mt-5 btn btn-success" type="submit" value="Generate Password" />
+            <input
+              class="mt-5 btn btn-success"
+              type="submit"
+              value="Generate Password"
+              id="generate-btn"
+              disabled
+            />
           </form>
         </div>
 
         <div class="col-sm">
-          <h5 class="text-center">Password Tips</h5>
+          <h5 class="text-center" id="col-2-title">Password Tips</h5>
           <ul>
             <li>
               <strong
@@ -116,11 +160,36 @@
       </div>
     </div>
 
+    <script>
+      function checkInput() {
+        const input = document.querySelector("#length-input");
+        const button = document.querySelector("#generate-btn");
+        if (input.value === "") {
+          button.disabled = true;
+        } else {
+          button.disabled = false;
+        }
+      }
+
+      function copyToClipboard() {
+        var input = document.getElementById("generated-password").textContent;
+        input = input.trim();
+
+        try {
+          navigator.clipboard.writeText(input);
+          document.getElementById("copied").innerHTML = "Copied!";
+          document.getElementById("copied").style.color = "green";
+        } catch {
+          document.getElementById("copied").innerHTML = "Copy Failed!";
+          document.getElementById("copied").style.color = "red";
+        }
+      }
+    </script>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"
     ></script>
-    <script src="/static/js/app.js"></script>
   </body>
 </html>
